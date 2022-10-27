@@ -1,6 +1,10 @@
 import os
 import argparse
 from dotenv import load_dotenv
+
+from classifiers.k_nearest_n import knn
+from classifiers.naive_bayes import naive_bayes
+from classifiers.support_vector_machine import svm
 from processing import dataset_process as processing
 from classifiers.logistic_regression import logistic_regression
 from classifiers.decision_tree import decision_tree
@@ -37,11 +41,14 @@ def main():
             y_predicted, y_real = random_forest(X_train, X_test, y_train, y_test)
             generate_report(y_predicted, y_real, method=args.algorithm)
         elif args.algorithm == "naive_bayes":
-            pass
+            y_predicted, y_real = naive_bayes(X_train, X_test, y_train, y_test)
+            generate_report(y_predicted, y_real, method=args.algorithm)
         elif args.algorithm == "svm":
-            pass
+            y_predicted, y_real = svm(X_train, X_test, y_train, y_test)
+            generate_report(y_predicted, y_real, method=args.algorithm)
         elif args.algorithm == "knn":
-            pass
+            y_predicted, y_real = knn(X_train, X_test, y_train, y_test)
+            generate_report(y_predicted, y_real, method=args.algorithm)
     else:
         raise FileNotFoundError
 
