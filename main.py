@@ -6,6 +6,7 @@ from classifiers.k_nearest_n import knn
 from classifiers.naive_bayes import naive_bayes
 from classifiers.support_vector_machine import svm
 from processing import dataset_process as processing
+from visualisation import visualized
 from classifiers.logistic_regression import logistic_regression
 from classifiers.decision_tree import decision_tree
 from classifiers.random_forest import random_forest
@@ -18,7 +19,8 @@ ALGORITHMS = [
               'random_forest',
               'naive_bayes',
               'svm',
-              'knn'
+              'knn',
+              'visualisation',
 ]
 
 
@@ -31,6 +33,15 @@ def main():
         print(f"Executing {args.algorithm} on data {data_file_path}")
         X_train, X_test, y_train, y_test = processing.parse_data(data_file_path)
 
+        if args.algorithm == "visualisation":
+            df = processing.get_df_from_file(data_file_path)
+            x_1 = (df.apply(lambda row: 0 if row['Gender'] == 'Female' else 1, axis=1)).values.tolist()
+            x_2 = df['Age'].values.tolist()
+            x_3 = df['EstimatedSalary'].values.tolist()
+            y = df['Purchased'].values.tolist()
+            visualized(x_1, x_2, y, "Gender", 'Age')
+            visualized(x_1, x_3, y, "Gender", 'EstimatedSalary')
+            visualized(x_2, x_3, y, "Age", 'EstimatedSalary')
         if args.algorithm == "logistic_regression":
             y_predicted, y_real = logistic_regression(X_train, X_test, y_train, y_test)
             generate_report(y_real, y_predicted, method=args.algorithm)
@@ -49,6 +60,7 @@ def main():
         elif args.algorithm == "knn":
             y_predicted, y_real = knn(X_train, X_test, y_train, y_test)
             generate_report(y_predicted, y_real, method=args.algorithm)
+
     else:
         raise FileNotFoundError
 

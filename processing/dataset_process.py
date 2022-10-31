@@ -3,6 +3,10 @@ import pandas
 from sklearn.model_selection import train_test_split
 
 
+def get_df_from_file(data_file_path):
+    return pandas.read_csv(data_file_path)
+
+
 def parse_data(data_file_path):
     df = pandas.read_csv(data_file_path)
     df = df.reset_index(drop=True)
