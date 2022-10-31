@@ -1,0 +1,282 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+\usepackage[T2A]{fontenc}
+\usepackage[serbianc]{babel}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{lipsum}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{{./img/}}
+
+%Za reference
+\usepackage[style=verbose]{biblatex}
+
+\usepackage{biblatex}
+\addbibresource{cite.bib}
+
+%za pajton
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\title{Домаћи задатак II \\  Системи за подршку одлучивању}
+\author{Матеја Вујсић 405/2022}
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+% support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS % header line width
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{Факултет инжењерских наука}\chead{}\rhead{Системи за подршку одлучивању}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+\renewcommand{\headrulewidth}{0.4pt}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape\textbf} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape\normalfont\bfseries}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+\usepackage{hyperref}
+\hypersetup{linktoc=page}
+
+%%% END Article customizations
+%%% The "real" document content comes below...
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\makeatletter
+    \begin{titlepage}
+        \begin{center}
+            \includegraphics[width=0.2\linewidth]{grb-faks.png}\\[7ex]
+            {\huge \bfseries  \@title }\\[2ex] 
+            {\LARGE  \@author}\\[50ex] 
+            {\large \@date}
+        \end{center}
+    \end{titlepage}
+\makeatother
+\thispagestyle{empty}
+\newpage
+\newpage
+
+\doublespacing
+\tableofcontents
+\singlespacing
+
+\newpage
+\section{Увод}
+Задат скуп података описује проблем класификације за утврђивање да ли је, на основу неких параметара, особа купила одређени произввод. У даљем наставку рада биће анализирани улазни подаци-излазни подаци, извршиће се имплементација сваког од даље наведеног алгоритма, тестираће се хиперпараметри сваког од алгоритма, и биће дискутовани резултати. \\
+На задатом скупу података биће имплементирани следећим класификаторима:
+\begin{itemize}
+	\item Logistic Regression
+	\item Decision Tree
+	\item Random Forest
+	\item Naïve Bayes Classifier
+	\item Support Vector Machine (SVM)
+	\item K Nearest Neighbors (KNN)
+\end{itemize}
+
+Цео задатака је одрађен у програмском језику Python коришћењем библиотеке sklearn. Поред ове кључне библиотеке, искоришћене су и неке додатне библиотеке, као што су pandas - за читање скупа података и његову обраду, matplotlib за исцртавање графика и seaborn за исцртавање матрице конфузије. Такође, ту су и неке стандарнде python библиотеке како би се израдила одговарајућа конзолна апликација.
+
+\newpage
+
+\section{Улазни подаци}
+Један улазни вектор састоји се из 4 параметара. То су ID, Age, Gender,
+ EstimatedSalary. 
+Излазни података је податак да ли је особа купила одређени предмет представљен бинарно као 0 (за предмет није купљен) и 1(за предмет купљен), под називом  `Purchased`.
+
+\begin{lstlisting}[language=Python,title=Пример 1. /processing/dataset\_process - `припремање података`]
+import random
+import pandas
+from sklearn.model_selection import train_test_split
+
+
+def get_df_from_file(data_file_path):
+    return pandas.read_csv(data_file_path)
+
+
+def parse_data(data_file_path):
+    df = pandas.read_csv(data_file_path)
+    df = df.reset_index(drop=True)
+    dataset = _normalize_data(df)
+    return _split_test_train_set(dataset)
+
+
+def _normalize_data(df):
+    df['Gender'] = df.apply(lambda row: 0 if row['Gender'] == 'Female' else 1, axis=1)
+    df = df.drop(columns=['User ID'], axis=1)
+    return df
+
+
+def _split_test_train_set(df):
+    X_train, X_test, y_train, y_test = train_test_split(df.drop('Purchased', axis=1),
+                                                        df['Purchased'],
+                                                        test_size=0.2,
+                                                        random_state=random.randint(10, 332))
+    return X_train, X_test, y_train, y_test
+
+
+\end{lstlisting}
+
+Анализом података дошло се до закључка да је потребно нормализовати колону Gender као 0 или 1, пошто та колона представљена алфанумеричким карактерима као `Female` и `Male` у зависности којег је особа пола. Такође, закључено је и да је колона `ID` има јединствене вредности тако да ће бити искључена из сета података. 
+
+\subsection{Структура пројекта}
+
+Структура пројекта\footnote{Овај пројекат налази се на линку https://github.com/mVujsic/dss-h2-classifiers.git Ту су и неки примери како треба поставити пројектно окружење} приказана је на слици бр.1. Главни улазни фајл који се покреће је main.py, која је уствари конзолна апликација, са једним аргументом који представља извршавање пројекта у односу на тражени класификатор. Дакле, могући улазни параметри тог аргумента су logistic\_regression, knn, svm, random\_forest, naive\_bayes, и придодат је visualisator за анализу улазних података у односу на излаз. Овај фајл је далеко највећи по броју линија кода и такође је врло тривијалан за покретање као конзолна апликација па није од неког значаја да се тумачи.
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.75]{project_structure} 
+	\caption{Структура пројекта} 
+\end{figure}
+
+Главни фајлови класификатора су у директоријуму classifiers, то су фајлови-функције везане за поставку хиперпараметара сваког класификатора. Они ће бити обрађени у посебним поглављима.
+
+
+Подаци се налазе у једном фајлу у директоријуму data. A овај фајл као и фајл за дескрипцију овог домаћег уз LaTeX коде налази се у директоријуму desc. 
+
+Processing директоријум кроз dataset processing је задужен за припремање улазних података и читање задатог фајла. То је такође фајл са више функција који учитавају у меморију скуп података, нормализовање истих и дељење на тренинг и тест скуп у размери 80\% - 20\%. Овај фајл обрађен је у секцији Улазни подаци, и оно што би овде било од значаја додати да је искоришћена skilearn.models\_selection функција train\_test\_split за раздвајање података на тренинг и тест скуп.
+
+Пошто је реч о Python програмском језику потребно је дефинисати и неке фајлове кључне за виртуално окружење\footnote{Детаљан опис инсталирања виртуалног окружења се налази на поменутом github репозиторијуму.} и библиотечких захтева(requirements.txt), као и .env фајл који дефинише где се налази датотека улазног скупа података.
+\subsection{Визуализација улазних података}
+
+\begin{lstlisting}[language=Python,title=Пример 2. /visualisation/init.py - `визуализација`]
+import matplotlib.pyplot as plt
+
+
+def visualized(x_1, x_2, y, x_label, y_label):
+    x1 = []
+    x2 = []
+    y1 = []
+    y2 = []
+    for i, item in enumerate(y):
+        if item == 0:
+            x1.append(x_1[i])
+            y1.append(x_2[i])
+        else:
+            x2.append(x_1[i])
+            y2.append(x_2[i])
+
+    a1 = plt.scatter(x1, y1, label='klasa1')
+    a2 = plt.scatter(x2, y2, label='klasa2')
+
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.legend((a1, a2), ('klasa1', 'klasa2'))
+    plt.legend(bbox_to_anchor=(1.28, 0.9), loc='center right')
+    plt.show()
+
+\end{lstlisting}
+
+Што се тиче визуелизације података, све што би се упоредило са улазом који представља пол би било или на нули или на јединици па нема смисла ни приказивати тај приказ. На слици испод је приказано како су подаци ове две класе распоређени, плавом бојом представљена је класа 0, наранџастом класа 1, док су улази године и висина зараде.
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.45]{age_salary} 
+	\caption{Структура пројекта} 
+\end{figure}
+
+\subsection{Генерисање извештаја}
+
+\begin{lstlisting}[language=Python,title=Пример 3. /classifiers/utils.py - `генерисање извештаја`]
+from sklearn.metrics import classification_report
+import numpy as np
+from sklearn import metrics
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+def generate_report(y_pred, y_real, method='logistic_regression'):
+    out_class_labels = ["", '']
+    general_report = classification_report(y_real, y_pred, target_names=out_class_labels)
+    print(general_report)
+
+    classes = np.unique(y_real)
+
+    fig, ax = plt.subplots()
+    conf_matrix = metrics.confusion_matrix(y_real, y_pred, labels=classes)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap=plt.cm.Blues, cbar=False)
+    ax.set(xlabel="Predvidjeno", ylabel="Tacno", title=method)
+    ax.set_yticklabels(labels=classes, rotation=0)
+    plt.show()
+
+
+\end{lstlisting}
+
+\section{Logistic regression}
+\section{Decision Tree}
+\section{Random Forest}
+\section{Naïve Bayes Classifier}
+\section{Support Vector Machine}
+\section{Закључак}
+\newpage
+\section{Референце}
+[1] https://www.javatpoint.com/logistic-regression-in-machine-learning, сајту приступано 13. 10. 2022. у 10 часова.
+
+[2] https://www.section.io/engineering-education/introduction-to-random-forest-in-machine-learning, сајту приступано 14. 10. 2022. у 17 часова.
+
+[3] https://scikit-learn.org/stable/modules/naive\_bayes.html, сајту приступано 16. 10. 2022. у 11 часова.
+
+[4] Документ преузет са https://rti.etf.bg.ac.rs/rti/ms1psz/pdf/kNN.pdf, а сајту приступано 17. 10. 2022. у 13 часова.
+
+[5] https://laptrinhx.com/k-nearest-neighbors-unlocked-454254569/, сајту приступано 19. 10. 2022. у 16 часова.
+
+\end{document}
