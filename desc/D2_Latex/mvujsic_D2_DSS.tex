@@ -139,9 +139,9 @@
 \newpage
 
 \section{Улазни подаци}
-Један улазни вектор састоји се из 4 параметара. То су ID, Age, Gender,
- EstimatedSalary. 
-Излазни података је податак да ли је особа купила одређени предмет представљен бинарно као 0 (за предмет није купљен) и 1(за предмет купљен), под називом  `Purchased`.
+Један улазни вектор састоји се из 4 параметара. То су `ID`, `Age`, `Gender`,
+ `EstimatedSalary`. 
+Излазни података је податак да ли је особа купила одређени предмет представљен бинарно као 0 (за предмет није купљен) и 1 (за предмет купљен), под називом  `Purchased`.
 
 \begin{lstlisting}[language=Python,title=Пример 1. /processing/dataset\_process - `припремање података`]
 import random
@@ -236,6 +236,19 @@ def visualized(x_1, x_2, y, x_label, y_label):
 
 \subsection{Генерисање извештаја}
 
+Сваки програм на крају тренинга и теста,  позива функцију која приказује метрику модела. Једно од најзначајних метрика је матрица конфузије. Матрица конфузије је битан показатељ прецизности, али и других метрика класификатора. Из матрице можемо да прочитамо вредноси TP(true positive), TN(true negative), FP(false positive) и FN(false negative).
+
+	TP за класу 1 представља број пута који је мрежа на излазу добила класу 1, када је она била и жељени излаз.
+	
+	TN за класу 1 представља број пута који је мрежа на излазу добила класу различиту од класе 1, када је и жељени 
+	излаз био различит од класе 1.
+	
+	FP за класу 1 представља број пута који је мрежа на излазу добила класу 1, када она није била жељени излаз.
+	
+	FN за класу 1 представља број пута које је мрежа на излазу добила класу различиту од класе 1, када је она била жељени излаз.
+
+За добијање осталих метрика модела као што су тачност, сензитивност, специфичност, f1-score за сваку излазну класу користимо функцију из модула sklearn.merics, classification\_report, пре свега зато што је уграђена и нема потребе ручно правити функцију за метрике. Излаз из ове штампане све горе наведене метрике у табелу.
+
 \begin{lstlisting}[language=Python,title=Пример 3. /classifiers/utils.py - `генерисање извештаја`]
 from sklearn.metrics import classification_report
 import numpy as np
@@ -261,11 +274,174 @@ def generate_report(y_pred, y_real, method='logistic_regression'):
 
 \end{lstlisting}
 
+
 \section{Logistic regression}
+
+Показало се да уколико се не мењају опциони параметри овог класификатора, модел не даје довољно добру метрику решавања проблема класификације. Зато је потребно променти неколико хиперпараметра. 
+
+Промењена је математичка функција која ради у позадини са ‘lbfgs’ на `liblinear`. Показало се да ова промена не даје неки резултат. Tакође промењн је параметар C, који је параметар који представља јачину регуларизације, као и параметар који додељу тежинске коенфицијенте излзазним класам због неизбалансираности.
+
+Прецизност варира од 70\% - 92\% у зависности од избора хиперпараметара, што показује да алгоритам нестабилно ради. 
+
+\begin{lstlisting}[language=Python,title=Пример 4. Логичка регресија - фајл /classificators/logistic\_regression.py]
+from sklearn import linear_model
+
+
+def logistic_regression(X_train, X_test, y_train, y_test):
+    print("Logistic regression: solver=liblinear, max_iter=200, class_weight={0:0.8, 1:1}, C=0.7")
+    model = linear_model.LogisticRegression(class_weight={0: 0.8, 1: 1}, C=0.7,
+                                            solver='liblinear',
+                                            max_iter=200)
+    model.fit(X_train, y_train)
+    predicted_results_y = model.predict(X_test)
+    return predicted_results_y, y_test
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{logistic_regression_matrix} 
+	\caption{Логичка регресија - метрика} 
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.50]{logistic_regression_score} 
+	\caption{Логичка регресија - метрика} 
+\end{figure}
+
+
 \section{Decision Tree}
+Најзначајнији хиперпараметри стабла одлучивања су: max\_depth и min\_sample\_leaf.
+Max\_depth је параметар који ограничав максималну дубину стабла. У овом примеру се није користио јер су бољи резултати без њега.
+
+Min\_sample\_leaf представља минималан број узорака који је потребан за креирање листа на дну стабла.
+
+Прецизност овог класификатора је 88\%.
+
+\begin{lstlisting}[language=Python,title=Пример 5. ]
+from sklearn.tree import DecisionTreeClassifier
+
+
+def decision_tree(X_train, X_test, y_train, y_test):
+    print("Decision tree: min_samples_leaf=11")
+    dtc = DecisionTreeClassifier(min_samples_leaf=11, class_weight={0:0.8, 1: 1.0})
+    dtc.fit(X_train, y_train)
+
+    y_predicted_results_y = dtc.predict(X_test)
+    return y_predicted_results_y, y_test
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.40]{decision_tree_score} 
+	\caption{Decision Tree - метрика} 
+\end{figure}
+
+\newpage
+
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{decision_tree_matrix} 
+	\caption{Decision Tree - матрица конфузије} 
+\end{figure}
+
+
 \section{Random Forest}
+
+\begin{lstlisting}[language=Python,title=Пример 6. ]
+from sklearn.ensemble import RandomForestClassifier
+
+
+def random_forest(X_train, X_test, y_train, y_test):
+    print("Random forest: min_samples_leaf=11")
+    rf = RandomForestClassifier(min_samples_leaf=15,
+                                class_weight={0:0.6, 1: 1.0},
+                                n_estimators=150)
+    rf.fit(X_train, y_train)
+
+    predicted_results_y = rf.predict(X_test)
+    return predicted_results_y, y_test
+
+
+\end{lstlisting}
+
 \section{Naïve Bayes Classifier}
+Убедљиво најбољу прецизност даје Наивни Бајас и то користећи хиперпараметре који су подразумевани
+
+\begin{lstlisting}[language=Python,title=Пример 7. ]
+from sklearn.naive_bayes import GaussianNB
+
+
+def naive_bayes(X_train, X_test, y_train, y_test):
+    print("Bayes - plain")
+    gnb = GaussianNB()
+    gnb.fit(X_train, y_train)
+    y_prediction_results = gnb.predict(X_test)
+    return y_prediction_results, y_test
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{naive_bayes_matrix} 
+	\caption{Naive Bayas - матрица конфузије} 
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.50]{naive_bayes_score} 
+	\caption{Naive Bayas - метрика} 
+\end{figure}
+
+
 \section{Support Vector Machine}
+
+\begin{lstlisting}[language=Python,title=Пример 8. ]
+from sklearn.svm import SVC
+
+
+def svm(X_train, X_test, y_train, y_test):
+    print("Support vector machine:  ")
+
+    svc = SVC(kernel='rbf', C=2)
+    svc.fit(X_train, y_train)
+
+    y_predict_result = svc.predict(X_test)
+
+    return y_predict_result, y_test
+\end{lstlisting}
+
+
+\section{KNN}
+За овај алгоритам кључни хиперпараметар је n\_neighbors. Од њега зависи колико тачака у близини нове додате тачке посматрамо. Уколико се је овај број превелики алгоритму ће требати више времена да улазном вектору додели класу. Због тога је изабран број 5, међутим већа вредност овог хиперпараметра даје бољу прецизност. Број пет је непаран број, и баш тај број је непарана како би се избело неко недефинисано стање, у смислу немогуће категоризације.
+	Прецизност је 76-78\%.
+	
+\begin{lstlisting}[language=Python,title=Пример 9. KNN /classificators/k\_nearest\_n.py ]
+from sklearn.neighbors import KNeighborsClassifier
+
+
+def knn(X_train, X_test, y_train, y_test):
+    print("KNN- n_neighbors=5, algorithm='kd_tree'")
+    knn_model = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', p=2) # algorithm='ball_tree')
+    knn_model.fit(X_train, y_train)
+
+    y_prediction_results = knn_model.predict(X_test)
+    return y_prediction_results, y_test
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{knn_matrix} 
+	\caption{KNN - матрица конфузије} 
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.50]{knn_score} 
+	\caption{KNN - метрика} 
+\end{figure}
+
+
 \section{Закључак}
 \newpage
 \section{Референце}
