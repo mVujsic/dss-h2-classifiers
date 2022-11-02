@@ -367,7 +367,7 @@ def random_forest(X_train, X_test, y_train, y_test):
 \end{lstlisting}
 
 \section{Naïve Bayes Classifier}
-Убедљиво најбољу прецизност даје Наивни Бајас и то користећи хиперпараметре који су подразумевани
+Убедљиво најбољу прецизност даје Наивни Бајас и то користећи хиперпараметре који су подразумевани.
 
 \begin{lstlisting}[language=Python,title=Пример 7. ]
 from sklearn.naive_bayes import GaussianNB
@@ -395,8 +395,11 @@ def naive_bayes(X_train, X_test, y_train, y_test):
 
 
 \section{Support Vector Machine}
+При оптимизацији, најважнији параметар је kernel функција. Она диктира облик n-димензионалних сепаратора, помоћу којих се генерализује припадност класама. Најчешће се корсите линеарна или rbf функција. Други параметар који посматрамо је вредност C, која диктира степен до ког класификатор треба да избегне грешке везане за погрешну класификацију тренинг података. За веће вредности C прецизност над тренинг скупом ће бити већа, међутим превелика вредност овог параметра доводи до лоше генерализације.
+	Прецизност је негде око 85\%.
 
-\begin{lstlisting}[language=Python,title=Пример 8. ]
+
+\begin{lstlisting}[language=Python,title=Пример 8. /classifers/svm.py]
 from sklearn.svm import SVC
 
 
@@ -410,6 +413,19 @@ def svm(X_train, X_test, y_train, y_test):
 
     return y_predict_result, y_test
 \end{lstlisting}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{svm_matrix} 
+	\caption{SVM - матрица конфузије} 
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.50]{svm_score} 
+	\caption{SVM - метрика} 
+\end{figure}
+
 
 
 \section{KNN}
