@@ -348,8 +348,13 @@ def decision_tree(X_train, X_test, y_train, y_test):
 
 
 \section{Random Forest}
+Помоћу величина max\_features и min\_samples\_leaf одређујемо величину узорка података који ће бити смештени у сваком стаблу.
 
-\begin{lstlisting}[language=Python,title=Пример 6. ]
+Max\_features ограничава величину стабла.
+
+Без подешавања хиперпараметара прецизност је 82\% а након подешавања 95\%.
+
+\begin{lstlisting}[language=Python,title=Пример 6. Random forest код]
 from sklearn.ensemble import RandomForestClassifier
 
 
@@ -461,14 +466,14 @@ def knn(X_train, X_test, y_train, y_test):
 \section{Закључак}
 \newpage
 \section{Референце}
-[1] https://www.javatpoint.com/logistic-regression-in-machine-learning, сајту приступано 13. 10. 2022. у 10 часова.
+[1] https://scikit -learn.org /stable/modules/generated/sklearn.linear_model.LogisticRegression.html , сајту приступано 28. 10. 2022. у 10 часова.
 
-[2] https://www.section.io/engineering-education/introduction-to-random-forest-in-machine-learning, сајту приступано 14. 10. 2022. у 17 часова.
+[2] https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html , сајту приступано 14. 10. 2022. у 17 часова.
 
-[3] https://scikit-learn.org/stable/modules/naive\_bayes.html, сајту приступано 16. 10. 2022. у 11 часова.
+[3] https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html, сајту приступано 19. 10. 2022. у 11 часова.
 
-[4] Документ преузет са https://rti.etf.bg.ac.rs/rti/ms1psz/pdf/kNN.pdf, а сајту приступано 17. 10. 2022. у 13 часова.
+[4] https://scikit-learn.org/stable/modules/generated/ sklearn.neighbors.KNeighborsClassifier.html, а сајту приступано 30. 10. 2022. у 13 часова.
 
-[5] https://laptrinhx.com/k-nearest-neighbors-unlocked-454254569/, сајту приступано 19. 10. 2022. у 16 часова.
+[5] https://laptrinhx.com/k-nearest-neighbors-unlocked-454254569/, сајту приступано 31. 10. 2022. у 16 часова.
 
 \end{document}
