@@ -354,6 +354,18 @@ Max\_features ограничава величину стабла.
 
 Без подешавања хиперпараметара прецизност је 82\% а након подешавања 95\%.
 
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.55]{random_forest_matrix} 
+	\caption{RF - матрица конфузије} 
+\end{figure}
+
+\begin{figure}[h]
+\centering
+	\includegraphics[scale=0.50]{random_forest_score} 
+	\caption{RF - метрика} 
+\end{figure}
+
 \begin{lstlisting}[language=Python,title=Пример 6. Random forest код]
 from sklearn.ensemble import RandomForestClassifier
 
@@ -374,7 +386,7 @@ def random_forest(X_train, X_test, y_train, y_test):
 \section{Naïve Bayes Classifier}
 Убедљиво најбољу прецизност даје Наивни Бајас и то користећи хиперпараметре који су подразумевани.
 
-\begin{lstlisting}[language=Python,title=Пример 7. ]
+\begin{lstlisting}[language=Python,title=Пример 7. Наивни бајес - код]
 from sklearn.naive_bayes import GaussianNB
 
 
@@ -398,7 +410,7 @@ def naive_bayes(X_train, X_test, y_train, y_test):
 	\caption{Naive Bayas - метрика} 
 \end{figure}
 
-
+\newpage
 \section{Support Vector Machine}
 При оптимизацији, најважнији параметар је kernel функција. Она диктира облик n-димензионалних сепаратора, помоћу којих се генерализује припадност класама. Најчешће се корсите линеарна или rbf функција. Други параметар који посматрамо је вредност C, која диктира степен до ког класификатор треба да избегне грешке везане за погрешну класификацију тренинг података. За веће вредности C прецизност над тренинг скупом ће бити већа, међутим превелика вредност овог параметра доводи до лоше генерализације.
 	Прецизност је негде око 85\%.
@@ -462,15 +474,26 @@ def knn(X_train, X_test, y_train, y_test):
 	\caption{KNN - метрика} 
 \end{figure}
 
-
+\newpage
 \section{Закључак}
+Након тестирања и подешавања хиперпараметара можемо закључити који класификатори дају најбоље резултате.
+
+\begin{itemize}
+    \item \textbf{Bayes} - без подешавања хиперпараметра 93\%,
+    \item \textbf{Logistics Regression} - са подешавањима хиперпараметара 91\%, без 74\%, 
+    \item \textbf{Random forest classifer} - са подешавањима хиперпараметара 89\%,
+    \item \textbf{Decision Tree} - са подешавањима 88\%, без 70\%,
+    \item \textbf{SVM} - 85\%,
+    \item \textbf{KNN} - са подешавањем броја најближих суседа (5) даје 76\%.
+\end{itemize}
+
 \newpage
 \section{Референце}
-[1] https://scikit -learn.org /stable/modules/generated/sklearn.linear_model.LogisticRegression.html , сајту приступано 28. 10. 2022. у 10 часова.
+[1] https://scikit -learn.org /stable/modules/generated/sklearn.linear\_model.LogisticRegression.html , сајту приступано 28. 10. 2022. у 10 часова.
 
-[2] https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html , сајту приступано 14. 10. 2022. у 17 часова.
+[2] https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html , сајту приступано 4. 11. 2022. у 17 часова.
 
-[3] https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html, сајту приступано 19. 10. 2022. у 11 часова.
+[3] https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html, сајту приступано 3. 11. 2022. у 11 часова.
 
 [4] https://scikit-learn.org/stable/modules/generated/ sklearn.neighbors.KNeighborsClassifier.html, а сајту приступано 30. 10. 2022. у 13 часова.
 
